@@ -47,6 +47,16 @@ enum Opt {
         #[clap(flatten)]
         args: Common,
     },
+
+    /// Generates bindings for Dotnet guest modules.
+    #[cfg(feature = "dotnet")]
+    Dotnet {
+        #[clap(flatten)]
+        opts: wit_bindgen_dotnet::Opts,
+        #[clap(flatten)]
+        args: Common,
+    },
+
     /// Generates bindings for TinyGo-based Go guest modules.
     #[cfg(feature = "go")]
     TinyGo {
@@ -91,6 +101,8 @@ fn main() -> Result<()> {
         Opt::Rust { opts, args } => (opts.build(), args),
         #[cfg(feature = "teavm-java")]
         Opt::TeavmJava { opts, args } => (opts.build(), args),
+        #[cfg(feature = "dotnet")]
+        Opt::Dotnet { opts, args } => (opts.build(), args),
         #[cfg(feature = "go")]
         Opt::TinyGo { opts, args } => (opts.build(), args),
     };
